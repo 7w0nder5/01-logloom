@@ -1,4 +1,6 @@
-# LogLoom
+# Project 01 · LogLoom
+
+> Independent GitHub Project 01
 
 LogLoom turns logs from several systems into one readable incident timeline. It runs entirely in the browser, needs no server or build step, and sends nothing over the network.
 
