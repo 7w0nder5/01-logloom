@@ -1,0 +1,3 @@
+2026-10-15 16:41:02.890 DEBUG job received id=req-1042
+2026-10-15 16:41:04.100 WARNING retrying job id=req-1042 attempt=1
+2026-10-15 16:41:04.780 INFO job completed id=req-1042

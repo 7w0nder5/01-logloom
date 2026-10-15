@@ -1,0 +1,5 @@
+2026-10-15T08:41:02.140Z INFO request accepted id=req-1042
+2026-10-15T08:41:03.005Z ERROR upstream timeout id=req-1042
+    at fetchProfile (profile.js:42:11)
+    at async handleRequest (server.js:18:3)
+2026-10-15T08:41:04.250Z INFO retry scheduled id=req-1042

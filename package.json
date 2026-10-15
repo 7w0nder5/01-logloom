@@ -1,0 +1,13 @@
+{
+  "name": "logloom",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Merge multi-source logs into a private, exportable incident timeline.",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test"
+  }
+}

@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LogLoom 在浏览器中解析、合并和筛选多来源日志。">
+    <title>LogLoom — 多来源日志时间线</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="src/parser.js"></script>
+    <script defer src="src/export.js"></script>
+    <script defer src="src/app.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#workspace">跳到工作区</a>
+    <header class="hero">
+      <div class="hero__inner">
+        <p class="eyebrow">LOCAL-FIRST LOG TOOL</p>
+        <h1>把散落的日志，<br><span>织成一条时间线。</span></h1>
+        <p class="hero__copy">LogLoom 在本地浏览器中合并多个日志来源。无需上传，也无需安装。</p>
+        <div class="privacy-pill" aria-label="隐私说明">
+          <span aria-hidden="true">●</span> 数据仅停留在当前页面
+        </div>
+      </div>
+    </header>
+
+    <main id="workspace" class="workspace">
+      <section class="panel input-panel" aria-labelledby="input-title">
+        <div class="section-heading">
+          <div>
+            <p class="step">01 / 输入</p>
+            <h2 id="input-title">日志来源</h2>
+          </div>
+          <button id="add-source" class="button button--quiet" type="button">＋ 添加来源</button>
+        </div>
+
+        <p class="hint">每个来源最多 5 MiB。内容只在此设备上处理。</p>
+        <div id="source-list" class="source-list"></div>
+
+        <div class="parse-bar">
+          <div class="field offset-field">
+            <label for="utc-offset">无时区日志的 UTC 偏移</label>
+            <input id="utc-offset" name="utc-offset" type="text" placeholder="+00:00" autocomplete="off">
+            <small>仅在日志时间戳不含时区时填写，例如 +08:00</small>
+          </div>
+          <button id="parse-button" class="button button--primary" type="button">解析并合并 <span aria-hidden="true">→</span></button>
+        </div>
+
+        <div id="error-message" class="notice notice--error" role="alert" hidden></div>
+      </section>
+
+      <section class="panel results-panel" aria-labelledby="results-title">
+        <div class="section-heading results-heading">
+          <div>
+            <p class="step">02 / 时间线</p>
+            <h2 id="results-title">合并结果</h2>
+          </div>
+          <p id="result-count" class="result-count" aria-live="polite">尚未解析</p>
+        </div>
+
+        <div id="filters" class="filters" hidden>
+          <div class="field">
+            <label for="source-filter">来源</label>
+            <select id="source-filter">
+              <option value="">全部来源</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="level-filter">级别</label>
+            <select id="level-filter">
+              <option value="">全部级别</option>
+            </select>
+          </div>
+          <div class="field field--search">
+            <label for="query-filter">关键词</label>
+            <input id="query-filter" type="search" placeholder="搜索消息或原始日志">
+          </div>
+        </div>
+
+        <div id="empty-state" class="empty-state">
+          <div class="empty-state__mark" aria-hidden="true">⌁</div>
+          <h3>时间线还没有开始</h3>
+          <p>添加日志来源并选择 UTC 偏移，然后开始解析。</p>
+        </div>
+
+        <div id="table-wrap" class="table-wrap" hidden>
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">时间</th>
+                <th scope="col">来源</th>
+                <th scope="col">级别</th>
+                <th scope="col">消息</th>
+                <th scope="col">原始日志</th>
+              </tr>
+            </thead>
+            <tbody id="result-body"></tbody>
+          </table>
+        </div>
+
+        <div id="no-match" class="empty-state empty-state--compact" hidden>
+          <h3>没有匹配结果</h3>
+          <p>调整筛选条件后再试。</p>
+        </div>
+
+        <div id="export-actions" class="export-actions" hidden>
+          <span>导出当前筛选结果</span>
+          <div>
+            <button id="download-markdown" class="button button--quiet" type="button">下载 Markdown</button>
+            <button id="download-json" class="button button--quiet" type="button">下载 JSON</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <template id="source-template">
+      <article class="source-card">
+        <div class="source-card__head">
+          <div class="field source-name-field">
+            <label>来源名称</label>
+            <input class="source-name" type="text" autocomplete="off" required>
+          </div>
+          <button class="icon-button remove-source" type="button" aria-label="删除此来源" title="删除来源">×</button>
+        </div>
+        <div class="field">
+          <label>日志文本</label>
+          <textarea class="source-text" rows="8" spellcheck="false" required></textarea>
+        </div>
+        <p class="byte-count" aria-live="polite">0 B / 5 MiB</p>
+      </article>
+    </template>
+
+    <footer>
+      <span>LogLoom</span>
+      <span>零依赖 · 本地处理 · 可直接打开</span>
+    </footer>
+  </body>
+</html>
